@@ -13,4 +13,6 @@ This repo deploys the following components:
 
 Each EC2 Instance is using AmazonLinux2 Operating System. 
 
+# AWS Architecture Diagram
+<img src="images/SingleTykGatewayDeployment.png" width="800" height="600">
 
