@@ -67,6 +67,9 @@ Resources:
 
           sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-5.0.10/redis.conf
 
+          cp /home/ec2-user/redis-5.0.10/src/redis-server /usr/local/bin/
+          cp /home/ec2-user/redis-5.0.10/src/redis-cli /usr/local/bin/
+
           /home/ec2-user/redis-5.0.10/src/redis-server /home/ec2-user/redis-5.0.10/redis.conf
 
       ImageId: ami-0ba0ce0c11eb723a1
