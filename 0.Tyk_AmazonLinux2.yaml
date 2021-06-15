@@ -60,24 +60,17 @@ Resources:
           yum install make gcc tcl wget -y
           yum groupinstall 'Development Tools' -y
           
-          #wget https://download.redis.io/releases/redis-5.0.10.tar.gz -P /home/ec2-user/
-          wget https://download.redis.io/releases/redis-6.2.4.tar.gz -P /home/ec2-user/
-          #tar xzf /home/ec2-user/redis-5.0.10.tar.gz -C /home/ec2-user/
-          tar xzf /home/ec2-user/redis-6.2.4.tar.gz -C /home/ec2-user/
-          #cd /home/ec2-user/redis-5.0.10
-          cd /home/ec2-user/redis-6.2.4
+          wget https://download.redis.io/releases/redis-5.0.10.tar.gz -P /home/ec2-user/
+          tar xzf /home/ec2-user/redis-5.0.10.tar.gz -C /home/ec2-user/
+          cd /home/ec2-user/redis-5.0.10
           make MALLOC=libc > /home/ec2-user/malloc_logs.txt
 
-          #sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-5.0.10/redis.conf
-          sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-6.2.4/redis.conf
+          sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-5.0.10/redis.conf
 
-          #cp /home/ec2-user/redis-5.0.10/src/redis-server /usr/local/bin/
-          cp /home/ec2-user/redis-6.2.4/src/redis-server /usr/local/bin/
-          #cp /home/ec2-user/redis-5.0.10/src/redis-cli /usr/local/bin/
-          cp /home/ec2-user/redis-6.2.4/src/redis-cli /usr/local/bin/
+          cp /home/ec2-user/redis-5.0.10/src/redis-server /usr/local/bin/
+          cp /home/ec2-user/redis-5.0.10/src/redis-cli /usr/local/bin/
 
-          #/home/ec2-user/redis-5.0.10/src/redis-server /home/ec2-user/redis-5.0.10/redis.conf
-          /home/ec2-user/redis-6.2.4/src/redis-server /home/ec2-user/redis-6.2.4/redis.conf
+          /home/ec2-user/redis-5.0.10/src/redis-server /home/ec2-user/redis-5.0.10/redis.conf
 
       ImageId: ami-0ba0ce0c11eb723a1
       InstanceType: t2.micro
