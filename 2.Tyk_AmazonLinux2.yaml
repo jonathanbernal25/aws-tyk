@@ -119,7 +119,8 @@ Resources:
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
 
-          yum install tyk-dashboard -y
+          #yum install tyk-dashboard -y
+          yum install tyk-dashboard-3.0.1-1.x86_64 -y
           
           dash=$(curl http://169.254.169.254/latest/meta-data/public-ipv4 -s)
 
@@ -174,7 +175,8 @@ Resources:
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-pump'
 
-          yum install tyk-pump -y
+          #yum install tyk-pump -y
+          yum install tyk-pump-1.0.1-1.x86_64 -y
 
           /opt/tyk-pump/install/setup.sh \
           --redishost=${Redis.PublicIp} \
@@ -221,7 +223,8 @@ Resources:
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-gateway' --enablerepo=epel
 
-          yum install tyk-gateway -y
+          #yum install tyk-gateway -y
+          yum install tyk-gateway-3.0.1-1.x86_64 -y
 
           /opt/tyk-gateway/install/setup.sh \
           --dashboard=1 \
