@@ -20,9 +20,16 @@ Resources:
 
           ################### INSTALLING PRE-REQUISITES ###################
           yum update -y
-          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
-          yum install python34 -y
-          yum install pygpgme yum-utils wget -y
+          cat > /home/ec2-user/testing0.txt <<EOF
+          yum update DONE!
+          EOF
+          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+          yum install python36 -y
+          yum install yum-utils wget -y
+
+          cat > /home/ec2-user/testing1.txt <<EOF
+          PRE-REQUISITES DONE
+          EOF
 
           ################### INSTALLING TYK DASHBOARD & DATABASES ###################
           cat > /etc/yum.repos.d/tyk_tyk-dashboard.repo <<EOF
@@ -39,7 +46,7 @@ Resources:
           metadata_expire=300
           EOF
 
-          cat > /etc/yum.repos.d/mongodb-org-4.4.repo <<EOF
+          cat > /etc/yum.repos.d/mongodb-org-4.0.repo <<EOF
           [mongodb-org-4.4]
           name=MongoDB Repository
           baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
@@ -123,7 +130,7 @@ Resources:
 
           service tyk-gateway start
 
-      ImageId: ami-0ba0ce0c11eb723a1
+      ImageId: ami-0d6ba217f554f6137
       InstanceType: t2.micro
       SecurityGroupIds: 
         - !Ref ApplicationSG
