@@ -60,7 +60,7 @@ Resources:
           yum install make gcc tcl wget -y
           yum groupinstall 'Development Tools' -y
           
-		  #THIS SECTION IS FOR REDIS 6
+          #THIS SECTION IS FOR REDIS 6
           wget https://download.redis.io/releases/redis-6.0.14.tar.gz -P /home/ec2-user/
           tar xzf /home/ec2-user/redis-6.0.14.tar.gz -C /home/ec2-user/
           cd /home/ec2-user/redis-6.0.14
@@ -70,8 +70,7 @@ Resources:
           cp /home/ec2-user/redis-6.0.14/src/redis-cli /usr/local/bin/
           /home/ec2-user/redis-6.0.14/src/redis-server /home/ec2-user/redis-6.0.14/redis.conf
 
-          
-		  #THIS SECTION IS FOR REDIS 5 - reaching EOL October 31. 2021
+          #THIS SECTION IS FOR REDIS 5 - reaching EOL October 31. 2021
           #wget https://download.redis.io/releases/redis-5.0.10.tar.gz -P /home/ec2-user/
           #tar xzf /home/ec2-user/redis-5.0.10.tar.gz -C /home/ec2-user/
           #cd /home/ec2-user/redis-5.0.10
@@ -234,11 +233,10 @@ Resources:
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-gateway' --enablerepo=epel
 
-
           #To install latest version from packagecloud 
           yum install tyk-gateway -y
           
-		  #To install specific version from packagecloud 
+          #To install specific version from packagecloud 
           #yum install tyk-gateway-3.0.1-1.x86_64 -y
          
 
