@@ -60,28 +60,24 @@ Resources:
           yum install make gcc tcl wget -y
           yum groupinstall 'Development Tools' -y
           
-		  #THIS SECTION IS FOR REDIS 6
-          wget https://download.redis.io/releases/redis-6.0.14.tar.gz -P /home/ec2-user/
-          tar xzf /home/ec2-user/redis-6.0.14.tar.gz -C /home/ec2-user/
-          cd /home/ec2-user/redis-6.0.14
+          wget https://download.redis.io/releases/redis-5.0.10.tar.gz -P /home/ec2-user/
+          #wget https://download.redis.io/releases/redis-6.0.14.tar.gz -P /home/ec2-user/
+          tar xzf /home/ec2-user/redis-5.0.10.tar.gz -C /home/ec2-user/
+          #tar xzf /home/ec2-user/redis-6.0.14.tar.gz -C /home/ec2-user/
+          cd /home/ec2-user/redis-5.0.10
+          #cd /home/ec2-user/redis-6.0.14
           make MALLOC=libc > /home/ec2-user/malloc_logs.txt
-          sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-6.0.14/redis.conf
-          cp /home/ec2-user/redis-6.0.14/src/redis-server /usr/local/bin/
-          cp /home/ec2-user/redis-6.0.14/src/redis-cli /usr/local/bin/
-          /home/ec2-user/redis-6.0.14/src/redis-server /home/ec2-user/redis-6.0.14/redis.conf
 
-          
-		  #THIS SECTION IS FOR REDIS 5 - reaching EOL October 31. 2021
-          #wget https://download.redis.io/releases/redis-5.0.10.tar.gz -P /home/ec2-user/
-          #tar xzf /home/ec2-user/redis-5.0.10.tar.gz -C /home/ec2-user/
-          #cd /home/ec2-user/redis-5.0.10
-          #make MALLOC=libc > /home/ec2-user/malloc_logs.txt
-          #sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-5.0.10/redis.conf
-          #cp /home/ec2-user/redis-5.0.10/src/redis-server /usr/local/bin/
-          #cp /home/ec2-user/redis-5.0.10/src/redis-cli /usr/local/bin/
-          #/home/ec2-user/redis-5.0.10/src/redis-server /home/ec2-user/redis-5.0.10/redis.conf
+          sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-5.0.10/redis.conf
+          #sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-6.0.14/redis.conf
 
+          cp /home/ec2-user/redis-5.0.10/src/redis-server /usr/local/bin/
+          #cp /home/ec2-user/redis-6.0.14/src/redis-server /usr/local/bin/
+          cp /home/ec2-user/redis-5.0.10/src/redis-cli /usr/local/bin/
+          #cp /home/ec2-user/redis-6.0.14/src/redis-cli /usr/local/bin/
 
+          /home/ec2-user/redis-5.0.10/src/redis-server /home/ec2-user/redis-5.0.10/redis.conf
+          #/home/ec2-user/redis-6.0.14/src/redis-server /home/ec2-user/redis-6.0.14/redis.conf
 
       ImageId: ami-0ba0ce0c11eb723a1
       InstanceType: t2.medium
@@ -123,12 +119,9 @@ Resources:
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
 
-          #To install latest version from packagecloud
-          yum install tyk-dashboard -y
+          #yum install tyk-dashboard -y
+          yum install tyk-dashboard-3.0.1-1.x86_64 -y
           
-          #To install specific version from package cloud
-          #yum install tyk-dashboard-3.0.1-1.x86_64 -y
-
           dash=$(curl http://169.254.169.254/latest/meta-data/public-ipv4 -s)
 
           /opt/tyk-dashboard/install/setup.sh \
@@ -182,12 +175,8 @@ Resources:
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-pump'
 
-          
-          #To install latest version from packagecloud
-          yum install tyk-pump -y
-          
-          #To install specific version from packagecloud
-          #yum install tyk-pump-1.0.1-1.x86_64 -y
+          #yum install tyk-pump -y
+          yum install tyk-pump-1.0.1-1.x86_64 -y
 
           /opt/tyk-pump/install/setup.sh \
           --redishost=${Redis.PublicIp} \
@@ -234,13 +223,8 @@ Resources:
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-gateway' --enablerepo=epel
 
-
-          #To install latest version from packagecloud 
-          yum install tyk-gateway -y
-          
-		  #To install specific version from packagecloud 
-          #yum install tyk-gateway-3.0.1-1.x86_64 -y
-         
+          #yum install tyk-gateway -y
+          yum install tyk-gateway-3.0.1-1.x86_64 -y
 
           /opt/tyk-gateway/install/setup.sh \
           --dashboard=1 \
