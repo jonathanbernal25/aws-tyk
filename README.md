@@ -12,7 +12,7 @@ This repo deploys the following components:
 | EC2 Instance  | Tyk Gateway         | ApplicationSG  |
 
 # Operating System
-Each EC2 Instance is using AmazonLinux2. 
+At the moment, only AmazonLinux is available. Currently adding RHEL7 and RHEL8 architectures. 
 
 # AWS Architecture Diagram
 <img src="zimages/SingleTykGatewayDeployment.png" width="800" height="600">
