@@ -26,13 +26,13 @@ Resources:
 
           #yum update -y
           
-          cat > /etc/yum.repos.d/mongodb-org-4.0.repo <<EOF
-          [mongodb-org-4.0]
+          cat > /etc/yum.repos.d/mongodb-org-4.4.repo <<EOF
+          [mongodb-org-4.4]
           name=MongoDB Repository
-          baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/4.0/x86_64/
+          baseurl=https://repo.mongodb.org/yum/redhat/8/mongodb-org/4.4/x86_64/
           gpgcheck=1
           enabled=1
-          gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
+          gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
           EOF
           
           yum install mongodb-org -y
@@ -102,7 +102,7 @@ Resources:
           #!/bin/bash -xe
 
           #yum update -y
-          sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
           yum install python36 -y
           yum install yum-utils wget -y
 
@@ -143,10 +143,6 @@ Resources:
 
           service tyk-dashboard start
 
-          cat > /home/ec2-user/testing1.txt <<EOF
-          DASHBOARD READY!
-          EOF
-
       ImageId: ami-0d6ba217f554f6137
       InstanceType: t2.micro
       SecurityGroupIds: 
@@ -166,7 +162,7 @@ Resources:
           #!/bin/bash -xe
 
           #yum update -y
-          sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
           yum install python36 -y
           yum install yum-utils wget -y
 
@@ -218,7 +214,7 @@ Resources:
           #!/bin/bash -xe
 
           #yum update -y
-          sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
           yum install python36 -y
           yum install yum-utils wget -y
           
