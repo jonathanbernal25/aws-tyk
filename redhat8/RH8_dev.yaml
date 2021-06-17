@@ -20,16 +20,10 @@ Resources:
 
           ################### INSTALLING PRE-REQUISITES ###################
           yum update -y
-          cat > /home/ec2-user/testing0.txt <<EOF
-          yum update DONE!
-          EOF
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
           yum install python36 -y
           yum install yum-utils wget -y
 
-          cat > /home/ec2-user/testing1.txt <<EOF
-          PRE-REQUISITES DONE
-          EOF
 
           ################### INSTALLING TYK DASHBOARD & DATABASES ###################
           cat > /etc/yum.repos.d/tyk_tyk-dashboard.repo <<EOF
@@ -47,12 +41,12 @@ Resources:
           EOF
 
           cat > /etc/yum.repos.d/mongodb-org-4.0.repo <<EOF
-          [mongodb-org-4.4]
+          [mongodb-org-4.0]
           name=MongoDB Repository
-          baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+          baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/4.0/x86_64/
           gpgcheck=1
           enabled=1
-          gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+          gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc
           EOF
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
@@ -138,4 +132,3 @@ Resources:
       Tags:
         - Key: "Name"
           Value: DEV
-

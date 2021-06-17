@@ -160,6 +160,7 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
+
           yum update -y
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
           yum install python34 -y
@@ -211,7 +212,7 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
-          yum update -y
+
           yum update -y
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
           yum install python34 -y
@@ -256,4 +257,3 @@ Resources:
       Tags:
         - Key: "Name"
           Value: Gateway
-
