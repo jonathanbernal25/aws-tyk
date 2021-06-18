@@ -2,10 +2,104 @@ AWSTemplateFormatVersion: 2010-09-09
 
 Parameters:
   VpcName:
-    Description: "Enter name of VPC"
+    Description: "Enter VPC ID"
+    Type: String
+  KeyPairName:
     Type: String
 
 Resources:
+
+  ApplicationSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow traffic from everywhere
+      SecurityGroupIngress:
+        IpProtocol: -1
+        CidrIp: 0.0.0.0/0
+
+  Blue:
+    Type: AWS::EC2::Instance
+    Properties:
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+
+          yum update -y
+          amazon-linux-extras install nginx1 -y
+          rm /usr/share/nginx/html/index.html
+
+          cat > /usr/share/nginx/html/index.html <<EOF
+          <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+          <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+              <head>
+                  <title>BLUE</title>
+                  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                  <style type="text/css">
+                      /*<![CDATA[*/
+                      body {
+                          background-color: #3c6eb4;
+                          color: #000;
+                      }
+                      /*]]>*/
+                  </style>
+              </head>
+              <body>
+              </body>
+          </html>
+          EOF
+
+          service nginx start
+
+      ImageId: ami-0ba0ce0c11eb723a1
+      InstanceType: t2.micro
+      SecurityGroupIds: 
+        - !Ref ApplicationSG
+      KeyName: !Ref KeyPairName
+      Tags:
+        - Key: "Name"
+          Value: blue
+
+  Red:
+    Type: AWS::EC2::Instance
+    Properties:
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+
+          yum update -y
+          amazon-linux-extras install nginx1 -y
+          rm /usr/share/nginx/html/index.html
+
+          cat > /usr/share/nginx/html/index.html <<EOF
+          <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+          <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+              <head>
+                  <title>RED</title>
+                  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                  <style type="text/css">
+                      /*<![CDATA[*/
+                      body {
+                          background-color: #eb4034;
+                          color: #000;
+                      }
+                      /*]]>*/
+                  </style>
+              </head>
+              <body>
+              </body>
+          </html>
+          EOF
+
+          service nginx start
+
+      ImageId: ami-0ba0ce0c11eb723a1
+      InstanceType: t2.micro
+      SecurityGroupIds: 
+        - !Ref ApplicationSG
+      KeyName: !Ref KeyPairName
+      Tags:
+        - Key: "Name"
+          Value: red
 
 #Create an Application Load Balancer
   ALB:
@@ -32,16 +126,20 @@ Resources:
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      HealthCheckIntervalSeconds: 10
-      HealthCheckPath: /hello
-      HealthCheckTimeoutSeconds: 5
+      HealthCheckPath: /index.html
       HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 5
+      HealthCheckTimeoutSeconds: 5
+      HealthCheckIntervalSeconds: 10
       Matcher:
         HttpCode: 200
       Name: MyTargetGroup
       Port: 80
       Protocol: HTTP
-      UnhealthyThresholdCount: 5
       VpcId: !Ref VpcName
+      #TargetType: instance
+      Targets:
+        - Id: !Ref Blue
+        - Id: !Ref Red
 
 
