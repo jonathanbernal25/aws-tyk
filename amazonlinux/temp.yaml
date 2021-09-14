@@ -18,14 +18,18 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
 
-          ################### INSTALLING PRE-REQUISITES ###################
-          yum update -y
-          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
-          yum install python34 -y
-          yum install pygpgme yum-utils wget -y
+          # PREWORK:
+          sudo yum update -y
+          sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
+          sudo yum install python34 -y
+          sudo yum install pygpgme yum-utils wget -y
 
-          ################### INSTALLING DATABASES ###################
-          cat > /etc/yum.repos.d/mongodb-org-4.4.repo <<EOF
+          # REDIS:
+          sudo yum install -y redis
+          sudo service redis start
+
+          # MONGO:
+          sudo cat > /etc/yum.repos.d/mongodb-org-4.4.repo <<EOF
           [mongodb-org-4.4]
           name=MongoDB Repository
           baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
@@ -34,41 +38,12 @@ Resources:
           gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
           EOF
 
-          yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
+          sudo yum install mongodb-org -y
 
-          yum install mongodb-org tyk-dashboard redis -y
+          sudo service mongod start
 
-          service mongod start
-          service redis start
-
-          ################### INSTALLING TYK PUMP ###################
-          cat > /etc/yum.repos.d/tyk_tyk-pump.repo <<EOF
-          [tyk_tyk-pump]
-          name=tyk_tyk-pump
-          baseurl=https://packagecloud.io/tyk/tyk-pump/el/7/\$basearch
-          repo_gpgcheck=1
-          gpgcheck=1
-          enabled=1
-          gpgkey=https://keyserver.tyk.io/tyk.io.rpm.signing.key.2020
-                 https://packagecloud.io/tyk/tyk-pump/gpgkey
-          sslverify=1
-          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-          metadata_expire=300
-          EOF
-
-          yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-pump'
-
-          yum install tyk-pump -y
-
-          /opt/tyk-pump/install/setup.sh \
-          --redishost=localhost \
-          --redisport=6379 \
-          --mongo=mongodb://localhost/tyk_analytics
-
-          service tyk-pump start
-
-          ################### INSTALLING TYK GATEWAY ###################
-          cat > /etc/yum.repos.d/tyk_tyk-gateway.repo <<EOF
+          # GATEWAY: (yum install tyk-dashboard-3.0.1-1.x86_64 -y)
+          sudo cat > /etc/yum.repos.d/tyk_tyk-gateway.repo <<EOF
           [tyk_tyk-gateway]
           name=tyk_tyk-gateway
           baseurl=https://packagecloud.io/tyk/tyk-gateway/el/7/\$basearch
@@ -76,30 +51,49 @@ Resources:
           gpgcheck=1
           enabled=1
           gpgkey=https://keyserver.tyk.io/tyk.io.rpm.signing.key.2020
-                 https://packagecloud.io/tyk/tyk-gateway/gpgkey
+                https://packagecloud.io/tyk/tyk-gateway/gpgkey
           sslverify=1
           sslcacert=/etc/pki/tls/certs/ca-bundle.crt
           metadata_expire=300
           EOF
 
-          yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-gateway' --enablerepo=epel
+          sudo yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-gateway' --enablerepo=epel
 
-          yum install tyk-gateway -y
+          sudo yum install tyk-gateway -y
 
-          #/opt/tyk-gateway/install/setup.sh \
-          #--dashboard=1 \
-          #--listenport=8080 \
-          #--redishost=localhost \
-          #--redisport=6379
-
-          /opt/tyk-gateway/install/setup.sh \
+          sudo /opt/tyk-gateway/install/setup.sh \
           --listenport=8080 \
           --redishost=localhost \
           --redisport=6379 \
-          --domain=""
+          --domain="0.0.0.0"
 
+          sudo service tyk-gateway start
 
-          service tyk-gateway start
+          # PUMP:
+          sudo cat > /etc/yum.repos.d/tyk_tyk-pump.repo <<EOF
+          [tyk_tyk-pump]
+          name=tyk_tyk-pump
+          baseurl=https://packagecloud.io/tyk/tyk-pump/el/7/\$basearch
+          repo_gpgcheck=1
+          gpgcheck=1
+          enabled=1
+          gpgkey=https://keyserver.tyk.io/tyk.io.rpm.signing.key.2020
+                https://packagecloud.io/tyk/tyk-pump/gpgkey
+          sslverify=1
+          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+          metadata_expire=300
+          EOF
+
+          sudo yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-pump'
+
+          sudo yum install tyk-pump -y
+
+          sudo /opt/tyk-pump/install/setup.sh \
+          --redishost=localhost \
+          --redisport=6379 \
+          --mongo=mongodb://localhost/tyk_analytics
+
+          sudo service tyk-pump start
 
       ImageId: ami-0ba0ce0c11eb723a1
       InstanceType: t2.micro
