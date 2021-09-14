@@ -86,11 +86,18 @@ Resources:
 
           yum install tyk-gateway -y
 
+          #/opt/tyk-gateway/install/setup.sh \
+          #--dashboard=1 \
+          #--listenport=8080 \
+          #--redishost=localhost \
+          #--redisport=6379
+
           /opt/tyk-gateway/install/setup.sh \
-          --dashboard=1 \
           --listenport=8080 \
           --redishost=localhost \
-          --redisport=6379
+          --redisport=6379 \
+          --domain=""
+
 
           service tyk-gateway start
 
