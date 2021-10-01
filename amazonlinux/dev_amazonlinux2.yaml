@@ -1,6 +1,16 @@
 Parameters:
   KeyPairName:
     Type: String
+    Default: new
+    Description: Enter the name of your .pem key
+  InstanceTypeParameter:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.medium
+      - t2.large
+    Description: Enter t2.micro, t2.medium, or t2.large. Default value is t2.micro.
 
 Resources:
   ApplicationSG:
@@ -18,14 +28,37 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
 
-          ################### INSTALLING PRE-REQUISITES ###################
+          ######################### installing PRE-REQUISITES ##########################
           yum update -y
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
           yum install python34 -y
           yum install pygpgme yum-utils wget -y
-          yum install httpd-tools
+          yum install httpd-tools -y
+          #----------------------------------------------------------------------------#
 
-          ################### INSTALLING TYK DASHBOARD & DATABASES ###################
+
+
+          ######################### installing DATABASES ###############################
+          cat > /etc/yum.repos.d/mongodb-org-4.4.repo <<EOF
+          [mongodb-org-4.4]
+          name=MongoDB Repository
+          baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+          gpgcheck=1
+          enabled=1
+          gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+          EOF
+
+          yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
+
+          yum install mongodb-org redis -y
+
+          service mongod start
+          service redis start
+          #----------------------------------------------------------------------------#
+
+
+
+          ######################### installing TYK DASHBOARD ###########################
           cat > /etc/yum.repos.d/tyk_tyk-dashboard.repo <<EOF
           [tyk_tyk-dashboard]
           name=tyk_tyk-dashboard
@@ -40,21 +73,7 @@ Resources:
           metadata_expire=300
           EOF
 
-          cat > /etc/yum.repos.d/mongodb-org-4.4.repo <<EOF
-          [mongodb-org-4.4]
-          name=MongoDB Repository
-          baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
-          gpgcheck=1
-          enabled=1
-          gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
-          EOF
-
-          yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
-
-          yum install mongodb-org tyk-dashboard redis -y
-
-          service mongod start
-          service redis start
+          yum install tyk-dashboard -y
 
           dash=$(curl http://169.254.169.254/latest/meta-data/public-ipv4 -s)
 
@@ -70,8 +89,12 @@ Resources:
           --domain="$dash"
 
           service tyk-dashboard start
+          service tyk-dashboard enable
+          #----------------------------------------------------------------------------#
 
-          ################### INSTALLING TYK PUMP ###################
+
+
+          ######################### installing TYK PUMP ################################
           cat > /etc/yum.repos.d/tyk_tyk-pump.repo <<EOF
           [tyk_tyk-pump]
           name=tyk_tyk-pump
@@ -96,8 +119,12 @@ Resources:
           --mongo=mongodb://localhost/tyk_analytics
 
           service tyk-pump start
+          service tyk-pump enable
+          #----------------------------------------------------------------------------#
 
-          ################### INSTALLING TYK GATEWAY ###################
+
+
+          ######################### installing TYK GATEWAY #############################
           cat > /etc/yum.repos.d/tyk_tyk-gateway.repo <<EOF
           [tyk_tyk-gateway]
           name=tyk_tyk-gateway
@@ -123,9 +150,12 @@ Resources:
           --redisport=6379
 
           service tyk-gateway start
+          service tyk-gateway enable
+          #----------------------------------------------------------------------------#
 
       ImageId: ami-0ba0ce0c11eb723a1
-      InstanceType: t2.micro
+      InstanceType:
+        Ref: InstanceTypeParameter
       SecurityGroupIds: 
         - !Ref ApplicationSG
       KeyName: !Ref KeyPairName
