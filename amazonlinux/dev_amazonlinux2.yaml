@@ -23,6 +23,7 @@ Resources:
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
           yum install python34 -y
           yum install pygpgme yum-utils wget -y
+          yum install httpd-tools
 
           ################### INSTALLING TYK DASHBOARD & DATABASES ###################
           cat > /etc/yum.repos.d/tyk_tyk-dashboard.repo <<EOF
