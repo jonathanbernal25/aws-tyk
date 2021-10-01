@@ -1,7 +1,7 @@
 Parameters:
   KeyPairName:
     Type: String
-    Description: Enter the name of your .pem key
+    Description: Enter the name of the .pem key for SSH access to machine
   InstanceTypeParameter:
     Type: String
     Default: t2.micro
@@ -9,7 +9,8 @@ Parameters:
       - t2.micro
       - t2.medium
       - t2.large
-    Description: Enter t2.micro, t2.medium, or t2.large. Default value is t2.micro.
+      - t2.2xlarge
+    Description: Select the machine size.
 
 Resources:
   ApplicationSG:
@@ -20,9 +21,18 @@ Resources:
         IpProtocol: -1
         CidrIp: 0.0.0.0/0
 
-  TykEnvironment:
+  TykDevMachine:
     Type: AWS::EC2::Instance
     Properties:
+      ImageId: ami-0ba0ce0c11eb723a1
+      InstanceType:
+        Ref: InstanceTypeParameter
+      SecurityGroupIds: 
+        - !Ref ApplicationSG
+      KeyName: !Ref KeyPairName
+      Tags:
+        - Key: "Name"
+          Value: dev machine
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
@@ -89,7 +99,6 @@ Resources:
           --domain="$dash"
 
           service tyk-dashboard start
-          #service tyk-dashboard enable
           #----------------------------------------------------------------------------#
 
 
@@ -119,7 +128,6 @@ Resources:
           --mongo=mongodb://localhost/tyk_analytics
 
           service tyk-pump start
-          #service tyk-pump enable
           #----------------------------------------------------------------------------#
 
 
@@ -150,15 +158,4 @@ Resources:
           --redisport=6379
 
           service tyk-gateway start
-          #service tyk-gateway enable
           #----------------------------------------------------------------------------#
-
-      ImageId: ami-0ba0ce0c11eb723a1
-      InstanceType:
-        Ref: InstanceTypeParameter
-      SecurityGroupIds: 
-        - !Ref ApplicationSG
-      KeyName: !Ref KeyPairName
-      Tags:
-        - Key: "Name"
-          Value: dev machine
