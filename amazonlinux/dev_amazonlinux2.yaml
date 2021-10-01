@@ -1,7 +1,6 @@
 Parameters:
   KeyPairName:
     Type: String
-    Default: new
     Description: Enter the name of your .pem key
   InstanceTypeParameter:
     Type: String
@@ -47,9 +46,7 @@ Resources:
           enabled=1
           gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
           EOF
-
-          # DELETE ME ---->  yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
-
+          
           yum install mongodb-org -y
           yum install redis -y
 
@@ -92,7 +89,7 @@ Resources:
           --domain="$dash"
 
           service tyk-dashboard start
-          service tyk-dashboard enable
+          #service tyk-dashboard enable
           #----------------------------------------------------------------------------#
 
 
@@ -122,7 +119,7 @@ Resources:
           --mongo=mongodb://localhost/tyk_analytics
 
           service tyk-pump start
-          service tyk-pump enable
+          #service tyk-pump enable
           #----------------------------------------------------------------------------#
 
 
@@ -153,7 +150,7 @@ Resources:
           --redisport=6379
 
           service tyk-gateway start
-          service tyk-gateway enable
+          #service tyk-gateway enable
           #----------------------------------------------------------------------------#
 
       ImageId: ami-0ba0ce0c11eb723a1
