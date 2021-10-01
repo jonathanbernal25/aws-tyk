@@ -48,7 +48,7 @@ Resources:
           gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
           EOF
 
-          yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
+          # DELETE ME ---->  yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
 
           yum install mongodb-org -y
           yum install redis -y
@@ -73,6 +73,8 @@ Resources:
           sslcacert=/etc/pki/tls/certs/ca-bundle.crt
           metadata_expire=300
           EOF
+
+          yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
 
           yum install tyk-dashboard -y
 
