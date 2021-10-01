@@ -50,7 +50,8 @@ Resources:
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
 
-          yum install mongodb-org redis -y
+          yum install mongodb-org -y
+          yum install redis -y
 
           service mongod start
           service redis start
@@ -161,4 +162,4 @@ Resources:
       KeyName: !Ref KeyPairName
       Tags:
         - Key: "Name"
-          Value: DEV
+          Value: dev machine
