@@ -37,8 +37,6 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
 
-          touch /home/ec2-user/logfile
-
           ######################### installing PRE-REQUISITES ##########################
           yum update -y
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
@@ -98,7 +96,7 @@ Resources:
           --tyk_node_hostname=http://localhost \
           --tyk_node_port=8080 \
           --portal_root=/portal \
-          --domain="$dash"
+          --domain="$dash" >> /home/ec2-user/logfile
 
           service tyk-dashboard start
           #----------------------------------------------------------------------------#
@@ -127,7 +125,7 @@ Resources:
           /opt/tyk-pump/install/setup.sh \
           --redishost=localhost \
           --redisport=6379 \
-          --mongo=mongodb://localhost/tyk_analytics
+          --mongo=mongodb://localhost/tyk_analytics >> /home/ec2-user/logfile
 
           service tyk-pump start
           #----------------------------------------------------------------------------#
@@ -157,7 +155,7 @@ Resources:
           --dashboard=1 \
           --listenport=8080 \
           --redishost=localhost \
-          --redisport=6379
+          --redisport=6379 >> /home/ec2-user/logfile
 
           service tyk-gateway start
           #----------------------------------------------------------------------------#
