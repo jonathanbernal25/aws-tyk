@@ -46,7 +46,6 @@ Resources:
           #----------------------------------------------------------------------------#
 
 
-
           ######################### installing DATABASES ###############################
           cat > /etc/yum.repos.d/mongodb-org-4.4.repo <<EOF
           [mongodb-org-4.4]
@@ -65,58 +64,36 @@ Resources:
           #----------------------------------------------------------------------------#
 
 
-
           ######################### installing TYK DASHBOARD ###########################
-          cat > /etc/yum.repos.d/tyk_tyk-dashboard.repo <<EOF
-          [tyk_tyk-dashboard]
-          name=tyk_tyk-dashboard
-          baseurl=https://packagecloud.io/tyk/tyk-dashboard/el/7/\$basearch
-          repo_gpgcheck=1
-          gpgcheck=1
-          enabled=1
-          gpgkey=https://keyserver.tyk.io/tyk.io.rpm.signing.key.2020
-                 https://packagecloud.io/tyk/tyk-dashboard/gpgkey
-          sslverify=1
-          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-          metadata_expire=300
-          EOF
+          curl -s https://packagecloud.io/install/repositories/tyk/tyk-dashboard/script.rpm.sh | sudo bash
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
 
           yum install tyk-dashboard -y
+          #yum install tyk-dashboard-3.0.7-1 -y
 
-          dash=$(curl http://169.254.169.254/latest/meta-data/public-ipv4 -s)
+
+          Dashboard_IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4 -s)
 
           /opt/tyk-dashboard/install/setup.sh \
           --listenport=3000 \
           --redishost=localhost \
           --redisport=6379 \
           --mongo=mongodb://localhost/tyk_analytics \
-          --tyk_api_hostname=$dash:8080 \
+          --tyk_api_hostname=$Dashboard_IP:8080 \
           --tyk_node_hostname=http://localhost \
           --tyk_node_port=8080 \
           --portal_root=/portal \
-          --domain="$dash" >> /home/ec2-user/logfile
+          --domain="$Dashboard_IP" >> /home/ec2-user/logfile
 
           service tyk-dashboard start
+
           #----------------------------------------------------------------------------#
 
 
 
           ######################### installing TYK PUMP ################################
-          cat > /etc/yum.repos.d/tyk_tyk-pump.repo <<EOF
-          [tyk_tyk-pump]
-          name=tyk_tyk-pump
-          baseurl=https://packagecloud.io/tyk/tyk-pump/el/7/\$basearch
-          repo_gpgcheck=1
-          gpgcheck=1
-          enabled=1
-          gpgkey=https://keyserver.tyk.io/tyk.io.rpm.signing.key.2020
-                 https://packagecloud.io/tyk/tyk-pump/gpgkey
-          sslverify=1
-          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-          metadata_expire=300
-          EOF
+          curl -s https://packagecloud.io/install/repositories/tyk/tyk-pump/script.rpm.sh | sudo bash
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-pump'
 
@@ -128,28 +105,18 @@ Resources:
           --mongo=mongodb://localhost/tyk_analytics >> /home/ec2-user/logfile
 
           service tyk-pump start
+
           #----------------------------------------------------------------------------#
 
 
 
           ######################### installing TYK GATEWAY #############################
-          cat > /etc/yum.repos.d/tyk_tyk-gateway.repo <<EOF
-          [tyk_tyk-gateway]
-          name=tyk_tyk-gateway
-          baseurl=https://packagecloud.io/tyk/tyk-gateway/el/7/\$basearch
-          repo_gpgcheck=1
-          gpgcheck=1
-          enabled=1
-          gpgkey=https://keyserver.tyk.io/tyk.io.rpm.signing.key.2020
-                 https://packagecloud.io/tyk/tyk-gateway/gpgkey
-          sslverify=1
-          sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-          metadata_expire=300
-          EOF
+          curl -s https://packagecloud.io/install/repositories/tyk/tyk-gateway/script.rpm.sh | sudo bash
 
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-gateway' --enablerepo=epel
 
           yum install tyk-gateway -y
+          #yum install tyk-gateway-3.0.7-1 -y
 
           /opt/tyk-gateway/install/setup.sh \
           --dashboard=1 \
@@ -158,4 +125,5 @@ Resources:
           --redisport=6379 >> /home/ec2-user/logfile
 
           service tyk-gateway start
+
           #----------------------------------------------------------------------------#
