@@ -11,9 +11,9 @@ This repo deploys the following components:
 | EC2 Instance  | Tyk Pump            | DatabaseSG     |
 | EC2 Instance  | Tyk Gateway         | ApplicationSG  |
 
-# Operating System
+## Operating System
 AmazonLinux 
 
-# AWS Architecture Diagram
+## AWS Architecture Diagram
 <img src="zimages/SingleTykGatewayDeployment.png" width="800" height="600">
 
