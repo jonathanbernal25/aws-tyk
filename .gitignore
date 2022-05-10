@@ -1,3 +1,13 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# directory
+/temp
+
+# random files
 .DS_Store
+
+# images
 SingleTykGatewayDeployment.drawio
+
+# local env files
 .env
