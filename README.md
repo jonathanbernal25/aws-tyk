@@ -3,6 +3,10 @@ This repo provides a starting point to quickly deploy one of various types of Ty
 Each CloudFormation (.yaml) file deploys a single type of architecture.
 Under the '/deployments' directory, select an architecture relevant for your usecase. 
 
+
+## Operating System
+AmazonLinux2
+
 ## Available Architectures
 [development environment](https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/dev.yaml)
 
@@ -17,11 +21,9 @@ This repo deploys the following components.
 | EC2 Instance  | Tyk Dashboard       | ApplicationSG  |
 | EC2 Instance  | Tyk Pump            | DatabaseSG     |
 | EC2 Instance  | Tyk Gateway         | ApplicationSG  |
---->
 
-## Operating System
-AmazonLinux 
 
 ## AWS Architecture Diagram
-<img src="zimages/SingleTykGatewayDeployment.png" width="800" height="600">
+<img src="images/SingleTykGatewayDeployment.png" width="800" height="600">
 
+--->
