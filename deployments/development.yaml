@@ -1,7 +1,7 @@
 Parameters:
   KeyPairName:
     Type: String
-    Description: Enter the name of the .pem key for SSH access to machine
+    Description: 'Enter the name of the key (.pem) for SSH access to EC2 instances.'
   InstanceType:
     Type: String
     Default: t2.micro
@@ -10,11 +10,11 @@ Parameters:
       - t2.medium
       - t2.large
       - t2.2xlarge
-    Description: Select instance size
+    Description: 'Select instance size.'
   InstanceAMI:
     Type: String
     Default: ami-02541b8af977f6cdd
-    Description: This AMI value will vary region to region. Default assumes US-WEST-1. Adjust accordingly to your region. Select AmazonLinux2. 
+    Description: 'AMI will vary based on region. This template assumes US-WEST-1 region. Adjust accordingly to your region.' 
 
 Resources:
   ApplicationSG:
@@ -25,7 +25,7 @@ Resources:
         IpProtocol: -1
         CidrIp: 0.0.0.0/0
 
-  TykDevMachine:
+  DevVM:
     Type: AWS::EC2::Instance
     Properties:
       ImageId:
@@ -37,13 +37,13 @@ Resources:
       KeyName: !Ref KeyPairName
       Tags:
         - Key: "Name"
-          Value: TYK dev env
+          Value: TYK DEV environment
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
 
 
-          # installing PRE-REQUISITES
+          # PRE-REQUISITES
           #--------------------------#
           yum update -y
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
@@ -138,3 +138,12 @@ Resources:
           sudo systemctl start tyk-gateway
           sudo systemctl enable tyk-gateway
           #-------------------------------------------------------------------------------------------------#
+
+          
+          # POST-REQUISITES
+          #-------------------------------------------------------------------------------------------------#
+          touch ~/HELLOWORLD
+          #-------------------------------------------------------------------------------------------------#
+
+
+
