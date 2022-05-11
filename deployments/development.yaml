@@ -147,25 +147,29 @@ Resources:
 
           # level=error msg="Payload signature is invalid!" prefix=pub-sub
 
-          cat > /home/ec2-user/script.sh <<EOF
+
+
+
+
+          #cat > /home/ec2-user/script.sh <<EOF
           #!/bin/bash
-          sudo systemctl stop tyk-dashboard
-          sudo systemctl stop tyk-gateway
+          #sudo systemctl stop tyk-dashboard
+          #sudo systemctl stop tyk-gateway
 
-          sudo /opt/tyk-dashboard/install/setup.sh \
-          --listenport=3000 \
-          --redishost=localhost \
-          --redisport=6379 \
-          --mongo=mongodb://localhost/tyk_analytics \
-          --tyk_api_hostname=$DASHBOARD_IP:8080 \
-          --tyk_node_hostname=http://localhost \
-          --tyk_node_port=8080 \
-          --portal_root=/portal \
-          --domain="$DASHBOARD_IP"
+          #sudo /opt/tyk-dashboard/install/setup.sh \
+          #--listenport=3000 \
+          #--redishost=localhost \
+          #--redisport=6379 \
+          #--mongo=mongodb://localhost/tyk_analytics \
+          #--tyk_api_hostname=$DASHBOARD_IP:8080 \
+          #--tyk_node_hostname=http://localhost \
+          #--tyk_node_port=8080 \
+          #--portal_root=/portal \
+          #--domain="$DASHBOARD_IP"
 
-          sudo systemctl start tyk-dashboard
-          sudo systemctl start tyk-gateway
-          EOF
+          #sudo systemctl start tyk-dashboard
+          #sudo systemctl start tyk-gateway
+          #EOF
 
-          sudo chmod +x /home/ec2-user/script.sh
+          #sudo chmod +x /home/ec2-user/script.sh
           #-------------------------------------------------------------------------------------------------#
