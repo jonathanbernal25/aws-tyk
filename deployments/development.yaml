@@ -2,7 +2,7 @@ Parameters:
   KeyPairName:
     Type: String
     Description: Enter the name of the .pem key for SSH access to machine
-  InstanceTypeParameter:
+  InstanceType:
     Type: String
     Default: t2.micro
     AllowedValues:
@@ -10,11 +10,11 @@ Parameters:
       - t2.medium
       - t2.large
       - t2.2xlarge
-    Description: Select machine size
-  InstanceTypeParameter:
+    Description: Select instance size
+  InstanceAMI:
     Type: String
     Default: ami-02541b8af977f6cdd
-    Description: This value will depend on which region you are in. Default is for US-WEST-1. Please adjust according to your region. 
+    Description: This value will vary region to region. Default is US-WEST-1. Adjust accordingly to your region for AmazonLinux2. 
 
 Resources:
   ApplicationSG:
@@ -28,15 +28,16 @@ Resources:
   TykDevMachine:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: ami-0ba0ce0c11eb723a1
+      ImageId:
+        Ref: InstanceAMI
       InstanceType:
-        Ref: InstanceTypeParameter
+        Ref: InstanceType
       SecurityGroupIds: 
         - !Ref ApplicationSG
       KeyName: !Ref KeyPairName
       Tags:
         - Key: "Name"
-          Value: dev machine
+          Value: TYK dev env
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
@@ -168,6 +169,3 @@ Resources:
 
           sudo chmod +x /home/ec2-user/script.sh
           #-------------------------------------------------------------------------------------------------#
-
-
-
