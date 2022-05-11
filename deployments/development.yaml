@@ -10,7 +10,11 @@ Parameters:
       - t2.medium
       - t2.large
       - t2.2xlarge
-    Description: Select the machine size.
+    Description: Select machine size
+  InstanceTypeParameter:
+    Type: String
+    Default: ami-02541b8af977f6cdd
+    Description: This value will depend on which region you are in. Default is for US-WEST-1. Please adjust according to your region. 
 
 Resources:
   ApplicationSG:
@@ -135,10 +139,12 @@ Resources:
 
           # temp section
           #--------------------------#
-          # script below is created in home directory in order to work-around the error:
-          # level=error msg="Payload signature is invalid!" prefix=pub-sub
-          # this should be temporary until fix 
+          # The script below gets created in /home directory of the newly 
+          # created machine in order to workaround the error listed below:
+          # This workaround should be temporary until fix 
           # chmod file and run AFTER bootstrapping via GUI
+
+          # level=error msg="Payload signature is invalid!" prefix=pub-sub
 
           cat > /home/ec2-user/script.sh <<EOF
           #!/bin/bash
