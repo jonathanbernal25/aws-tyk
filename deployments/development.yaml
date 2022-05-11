@@ -68,10 +68,10 @@ Resources:
           yum install mongodb-org -y
           yum install redis -y
 
-          service mongod start
+          sudo systemctl start mongod
           sudo systemctl enable mongod
 
-          service redis start
+          sudo systemctl start redis
           sudo systemctl enable redis
           #-------------------------------------------------------------------------------------------------#
 
@@ -97,7 +97,8 @@ Resources:
           --portal_root=/portal \
           --domain="$DASHBOARD_IP"
 
-          service tyk-dashboard start
+          sudo systemctl start tyk-dashboard
+          sudo systemctl enable tyk-dashboard
           #-------------------------------------------------------------------------------------------------#
 
 
@@ -114,7 +115,8 @@ Resources:
           --redisport=6379 \
           --mongo=mongodb://localhost/tyk_analytics
 
-          service tyk-pump start
+          sudo systemctl start tyk-pump
+          sudo systemctl enable tyk-pump
           #-------------------------------------------------------------------------------------------------#
 
 
@@ -133,43 +135,6 @@ Resources:
           --redishost=localhost \
           --redisport=6379
 
-          service tyk-gateway start
-          #-------------------------------------------------------------------------------------------------#
-
-
-
-          # temp section
-          #--------------------------#
-          # The script below gets created in /home directory of the newly 
-          # created machine in order to workaround the error listed below.
-          # This workaround will be temporary.
-          # chmod file and run AFTER bootstrapping via GUI
-
-          # level=error msg="Payload signature is invalid!" prefix=pub-sub
-
-
-
-
-
-          #cat > /home/ec2-user/script.sh <<EOF
-          #!/bin/bash
-          #sudo systemctl stop tyk-dashboard
-          #sudo systemctl stop tyk-gateway
-
-          #sudo /opt/tyk-dashboard/install/setup.sh \
-          #--listenport=3000 \
-          #--redishost=localhost \
-          #--redisport=6379 \
-          #--mongo=mongodb://localhost/tyk_analytics \
-          #--tyk_api_hostname=$DASHBOARD_IP:8080 \
-          #--tyk_node_hostname=http://localhost \
-          #--tyk_node_port=8080 \
-          #--portal_root=/portal \
-          #--domain="$DASHBOARD_IP"
-
-          #sudo systemctl start tyk-dashboard
-          #sudo systemctl start tyk-gateway
-          #EOF
-
-          #sudo chmod +x /home/ec2-user/script.sh
+          sudo systemctl start tyk-gateway
+          sudo systemctl enable tyk-gateway
           #-------------------------------------------------------------------------------------------------#
