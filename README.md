@@ -4,7 +4,7 @@ Each CloudFormation (.yaml) file deploys a single type of architecture.
 Under the '/deployments' directory, select an architecture relevant for your usecase. 
 
 ## Available Architectures
-1. [development environment]: https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/dev.yaml
+[development environment]: https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/dev.yaml
 
 
 <!---
