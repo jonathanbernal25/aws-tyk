@@ -1,7 +1,9 @@
 # Deploy Tyk on AWS
-This repo provides a starting point for users of Tyk to quickly deploy various types of archiectures on AWS. The single CloudFormation (.yaml) file deploys the entire Tyk stack. With each folder, you will see various architectures ranging from development to high-availability. 
+This repo provides a starting point to quickly deploy various types of Tyk archiectures on AWS. 
+Each CloudFormation (.yaml) file deploys a single type of architecture. 
+Each individual deployment is under the /deployments folder.
 
-This repo deploys the following components:
+This repo deploys the following components.
 
 | AWS Resource  | Tyk Stack Component | Security Group |
 |---------------|---------------------|----------------| 
