@@ -14,7 +14,7 @@ Parameters:
   InstanceAMI:
     Type: String
     Default: ami-02541b8af977f6cdd
-    Description: This value will vary region to region. Default is US-WEST-1. Adjust accordingly to your region for AmazonLinux2. 
+    Description: This AMI value will vary region to region. Default assumes US-WEST-1. Adjust accordingly to your region. Select AmazonLinux2. 
 
 Resources:
   ApplicationSG:
@@ -69,7 +69,10 @@ Resources:
           yum install redis -y
 
           service mongod start
+          sudo systemctl enable mongod
+
           service redis start
+          sudo systemctl enable redis
           #-------------------------------------------------------------------------------------------------#
 
 
@@ -80,7 +83,6 @@ Resources:
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-dashboard'
 
           yum install tyk-dashboard -y
-          #yum install tyk-dashboard-3.0.7-1 -y
 
           DASHBOARD_IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4 -s)
 
@@ -124,7 +126,6 @@ Resources:
           yum -q makecache -y --disablerepo='*' --enablerepo='tyk_tyk-gateway' --enablerepo=epel
 
           yum install tyk-gateway -y
-          #yum install tyk-gateway-3.0.7-1 -y
 
           /opt/tyk-gateway/install/setup.sh \
           --dashboard=1 \
@@ -137,12 +138,11 @@ Resources:
 
 
 
-
           # temp section
           #--------------------------#
           # The script below gets created in /home directory of the newly 
-          # created machine in order to workaround the error listed below:
-          # This workaround should be temporary until fix 
+          # created machine in order to workaround the error listed below.
+          # This workaround will be temporary.
           # chmod file and run AFTER bootstrapping via GUI
 
           # level=error msg="Payload signature is invalid!" prefix=pub-sub
