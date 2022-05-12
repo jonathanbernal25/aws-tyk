@@ -222,6 +222,8 @@ Resources:
 
           sudo systemctl start tyk-gateway
           sudo systemctl enable tyk-gateway
+
+          sudo reboot
           #-------------------------------------------------------------------------------------------------#
 
   Dashboard:
