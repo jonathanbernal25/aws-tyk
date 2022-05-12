@@ -66,7 +66,7 @@ Resources:
 
           yum install mongodb-org -y
 
-          sed -i '29s/.*/  bindIp: 0.0.0.0/' /etc/mongod.conf
+          sed -i '29s/.*/  bindIp: 0.0.0.0/'  
 
           sudo systemctl start mongod
           sudo systemctl enable mongod
@@ -91,49 +91,23 @@ Resources:
           
           # PRE-REQUISITES
           #--------------------------#
-          #yum update -y
-          #yum install make gcc tcl wget -y
-          #yum groupinstall 'Development Tools' -y
-          #-------------------------------------------------------------------------------------------------#
-
-          
-          # PRE-REQUISITES
-          #--------------------------#
           yum update -y
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
           yum install python34 -y
           yum install pygpgme yum-utils wget -y
           yum install httpd-tools -y
-          #-------------------------------------------------------------------------------------------------#
           
+          # installing Redis 
+          #--------------------------#
           yum install redis -y
+
+          #NOTE: Let's make this less error-prone, line 61 will change depending on redis version
+          sed -i '61s/.*/bind 0.0.0.0/' /etc/redis.conf
 
           sudo systemctl start redis
           sudo systemctl enable redis
-
-
-
-          # installing Redis 6 
-          #--------------------------#
-          #wget https://download.redis.io/releases/redis-6.0.14.tar.gz -P /home/ec2-user/
-          #tar xzf /home/ec2-user/redis-6.0.14.tar.gz -C /home/ec2-user/
-          #cd /home/ec2-user/redis-6.0.14
-          #make MALLOC=libc > /home/ec2-user/malloc_logs.txt
-          #sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-6.0.14/redis.conf
-          #cp /home/ec2-user/redis-6.0.14/src/redis-server /usr/local/bin/
-          #cp /home/ec2-user/redis-6.0.14/src/redis-cli /usr/local/bin/
-          #/home/ec2-user/redis-6.0.14/src/redis-server /home/ec2-user/redis-6.0.14/redis.conf
-          
-          #THIS SECTION IS FOR REDIS 5 - reaching EOL October 31. 2021
-          #wget https://download.redis.io/releases/redis-5.0.10.tar.gz -P /home/ec2-user/
-          #tar xzf /home/ec2-user/redis-5.0.10.tar.gz -C /home/ec2-user/
-          #cd /home/ec2-user/redis-5.0.10
-          #make MALLOC=libc > /home/ec2-user/malloc_logs.txt
-          #sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-5.0.10/redis.conf
-          #cp /home/ec2-user/redis-5.0.10/src/redis-server /usr/local/bin/
-          #cp /home/ec2-user/redis-5.0.10/src/redis-cli /usr/local/bin/
-          #/home/ec2-user/redis-5.0.10/src/redis-server /home/ec2-user/redis-5.0.10/redis.conf
           #-------------------------------------------------------------------------------------------------#
+
 
   Pump:
     Type: AWS::EC2::Instance
@@ -186,7 +160,7 @@ Resources:
           /opt/tyk-pump/install/setup.sh \
           --redishost=${Redis.PublicIp} \
           --redisport=6379 \
-          --mongo=mongodb://${Mongo.PublicIp}/tyk_analytics
+          --mongo=mongodb://${Mongo.PublicIp}/tyk_analytics 1> /home/ec2-user/pump.txt
 
           sudo systemctl start tyk-pump
           sudo systemctl enable tyk-pump
@@ -243,12 +217,10 @@ Resources:
           --dashboard=1 \
           --listenport=8080 \
           --redishost=${Redis.PublicIp} \
-          --redisport=6379
+          --redisport=6379 1> /home/ec2-user/gateway.txt
 
           sudo systemctl start tyk-gateway
           sudo systemctl enable tyk-gateway
-
-          sudo reboot
           #-------------------------------------------------------------------------------------------------#
 
   Dashboard:
@@ -311,7 +283,7 @@ Resources:
           --tyk_node_hostname=http://${Gateway.PublicIp} \
           --tyk_node_port=8080 \
           --portal_root=/portal \
-          --domain="$dash"
+          --domain="$dash" 1> /home/ec2-user/dashboard.txt
 
           sudo systemctl start tyk-dashboard
           sudo systemctl enable tyk-dashboard
