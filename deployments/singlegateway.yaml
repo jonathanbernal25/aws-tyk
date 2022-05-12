@@ -247,6 +247,8 @@ Resources:
 
           sudo systemctl start tyk-gateway
           sudo systemctl enable tyk-gateway
+
+          sudo reboot
           #-------------------------------------------------------------------------------------------------#
 
   Dashboard:
@@ -313,4 +315,6 @@ Resources:
 
           sudo systemctl start tyk-dashboard
           sudo systemctl enable tyk-dashboard
+
+          sudo reboot
           #-------------------------------------------------------------------------------------------------#
