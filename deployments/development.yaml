@@ -1,7 +1,7 @@
 Parameters:
   KeyPairName:
     Type: String
-    Description: 'Enter the name of the key (.pem) for SSH access to EC2 instances.'
+    Description: 'Enter the name of the key (.pem) for SSH access to single EC2 instance.'
   InstanceType:
     Type: String
     Default: t2.large
@@ -150,4 +150,3 @@ Resources:
           #-------------------------------------------------------------------------------------------------#
           sudo reboot
           #-------------------------------------------------------------------------------------------------#
-
