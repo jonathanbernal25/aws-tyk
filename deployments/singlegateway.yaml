@@ -165,6 +165,8 @@ Resources:
 
           sudo systemctl start tyk-pump
           sudo systemctl enable tyk-pump
+          
+          sudo reboot
           #-------------------------------------------------------------------------------------------------#
 
   Gateway:
