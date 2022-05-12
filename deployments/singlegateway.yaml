@@ -66,7 +66,8 @@ Resources:
 
           yum install mongodb-org -y
 
-          sed -i '29s/.*/  bindIp: 0.0.0.0/'  
+          #NOTE: Let's make this less error-prone, line 29 will change depending on mongodb version
+          sudo sed -i '29s/.*/  bindIp: 0.0.0.0/' /etc/mongod.conf 
 
           sudo systemctl start mongod
           sudo systemctl enable mongod
