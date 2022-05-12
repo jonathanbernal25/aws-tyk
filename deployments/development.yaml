@@ -46,8 +46,6 @@ Resources:
 
           # PRE-REQUISITES
           #--------------------------#
-          touch /home/ec2-user/reboots.txt
-          last reboot >> /home/ec2-user/reboots.txt
           yum update -y
           yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
           yum install python34 -y

@@ -91,21 +91,38 @@ Resources:
           
           # PRE-REQUISITES
           #--------------------------#
+          #yum update -y
+          #yum install make gcc tcl wget -y
+          #yum groupinstall 'Development Tools' -y
+          #-------------------------------------------------------------------------------------------------#
+
+          
+          # PRE-REQUISITES
+          #--------------------------#
           yum update -y
-          yum install make gcc tcl wget -y
-          yum groupinstall 'Development Tools' -y
+          yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm -y
+          yum install python34 -y
+          yum install pygpgme yum-utils wget -y
+          yum install httpd-tools -y
           #-------------------------------------------------------------------------------------------------#
           
+          yum install redis -y
+
+          sudo systemctl start redis
+          sudo systemctl enable redis
+
+
+
           # installing Redis 6 
           #--------------------------#
-          wget https://download.redis.io/releases/redis-6.0.14.tar.gz -P /home/ec2-user/
-          tar xzf /home/ec2-user/redis-6.0.14.tar.gz -C /home/ec2-user/
-          cd /home/ec2-user/redis-6.0.14
-          make MALLOC=libc > /home/ec2-user/malloc_logs.txt
-          sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-6.0.14/redis.conf
-          cp /home/ec2-user/redis-6.0.14/src/redis-server /usr/local/bin/
-          cp /home/ec2-user/redis-6.0.14/src/redis-cli /usr/local/bin/
-          /home/ec2-user/redis-6.0.14/src/redis-server /home/ec2-user/redis-6.0.14/redis.conf
+          #wget https://download.redis.io/releases/redis-6.0.14.tar.gz -P /home/ec2-user/
+          #tar xzf /home/ec2-user/redis-6.0.14.tar.gz -C /home/ec2-user/
+          #cd /home/ec2-user/redis-6.0.14
+          #make MALLOC=libc > /home/ec2-user/malloc_logs.txt
+          #sed -i '69s/.*/bind 0.0.0.0/' /home/ec2-user/redis-6.0.14/redis.conf
+          #cp /home/ec2-user/redis-6.0.14/src/redis-server /usr/local/bin/
+          #cp /home/ec2-user/redis-6.0.14/src/redis-cli /usr/local/bin/
+          #/home/ec2-user/redis-6.0.14/src/redis-server /home/ec2-user/redis-6.0.14/redis.conf
           
           #THIS SECTION IS FOR REDIS 5 - reaching EOL October 31. 2021
           #wget https://download.redis.io/releases/redis-5.0.10.tar.gz -P /home/ec2-user/
