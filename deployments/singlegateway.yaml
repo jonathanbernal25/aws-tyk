@@ -102,7 +102,7 @@ Resources:
           yum install redis -y
 
           #NOTE: Let's make this less error-prone, line 61 will change depending on redis version
-          sed -i '61s/.*/bind 0.0.0.0/' /etc/redis.conf
+          sudo sed -i '61s/.*/bind 0.0.0.0/' /etc/redis.conf
 
           sudo systemctl start redis
           sudo systemctl enable redis
