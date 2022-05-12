@@ -10,6 +10,14 @@ AmazonLinux2
 ## Available Architectures
 [development environment](https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/dev.yaml)
 
+This architecture is for a development environment. 
+There is a single EC2 instance with all components installed.
+
+[single gateway environment](https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/singlegateway.yaml)
+
+This architecture is closer to a production environment. 
+There are a total of 5 EC2 instances deployed, each instance with a component installed.
+There is no High Availability.
 
 <!---
 This repo deploys the following components.
