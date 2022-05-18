@@ -8,30 +8,20 @@ Under the '/deployments' directory, select an architecture relevant for your use
 AmazonLinux2
 
 ## Available Architectures
-[development environment](https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/dev.yaml)
+# Development
 
-This architecture is for a development environment. 
-There is a single EC2 instance with all components installed.
+The development architecture deploys all components onto a single EC2 instance. 
+This is ideal testing and development. 
+[CloudFormation Template](https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/dev.yaml)
+<img src="images/development.png" width="800" height="600">
 
-[single gateway environment](https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/singlegateway.yaml)
-
-This architecture is closer to a production environment. 
-There are a total of 5 EC2 instances deployed, each instance with a component installed.
-There is no High Availability.
-
-<!---
-This repo deploys the following components.
-
-| AWS Resource  | Tyk Stack Component | Security Group |
-|---------------|---------------------|----------------| 
-| EC2 Instance  | Redis Database      | DatabaseSG     |
-| EC2 Instance  | MongoDB Database    | DatabaseSG     |
-| EC2 Instance  | Tyk Dashboard       | ApplicationSG  |
-| EC2 Instance  | Tyk Pump            | DatabaseSG     |
-| EC2 Instance  | Tyk Gateway         | ApplicationSG  |
-
+# Single Gateway
+This architecture deloys all components onto their own EC2 instance. 
+This is closer to the best practice of deploying Tyk to a production environment. 
+NOTE: No high availability of any component.
+[CloudFormation Template](https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/singlegateway.yaml)
+<img src="images/single-gateway.png" width="800" height="600">
 
 ## AWS Architecture Diagram
-<img src="images/SingleTykGatewayDeployment.png" width="800" height="600">
+<img src="images/development.png" width="800" height="600">
 
---->
