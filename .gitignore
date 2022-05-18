@@ -3,8 +3,5 @@
 # random files
 .DS_Store
 
-# images
-SingleTykGatewayDeployment.drawio
-
 # local env files
 .env
