@@ -1,11 +1,11 @@
 # Deploy Tyk on AWS
 This repo provides a starting point to quickly deploy one of various types of Tyk archiectures on AWS. 
-Each CloudFormation (.yaml) file deploys a single type of architecture.
-Under the `/deployments` directory, select an architecture relevant for your use-case. 
+Each CloudFormation (.yaml) file deploys a type of architecture.
+Under the `/deployments` directory, select the architecture relevant to your use-case. 
 
 NOTE: FOR AMAZONLINUX2 ONLY
 
-# Available Architectures
+# Architectures
 
 ## Development
 The development architecture deploys all components onto a single EC2 instance. 
