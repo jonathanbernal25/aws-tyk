@@ -8,15 +8,15 @@ NOTE: FOR AMAZONLINUX2 ONLY
 # Architectures
 
 ## Development
-The development architecture deploys all components onto a single EC2 instance. 
-This is ideal testing and development. 
+This architecture deploys all Tyk components and databases onto a single EC2 instance. 
+This is ideal for testing and development. 
 <br/>
 [CloudFormation Template](https://github.com/jonathanbernal25/aws-tyk/blob/main/deployments/dev.yaml)
 <img src="images/development.png" width="800" height="600">
 <br/>
 
 ## Single Gateway
-This architecture deloys all components onto their own EC2 instance. 
+This architecture deloys each component onto it's own EC2 instance. 
 This is closer to the best practice of deploying Tyk to a production environment. 
 <br/>
 NOTE: No high availability of any component.
