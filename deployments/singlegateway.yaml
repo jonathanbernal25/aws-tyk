@@ -13,7 +13,7 @@ Parameters:
     Description: 'Select instance size.'
   InstanceAMI:
     Type: String
-    Default: ami-0022f774911c1d690
+    Default: ami-02541b8af977f6cdd
     Description: 'AMI will vary based on region. This template assumes US-WEST-1 region. Adjust accordingly to your region.' 
 
 Resources:
