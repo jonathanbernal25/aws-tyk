@@ -3,7 +3,7 @@ This repo provides a starting point to quickly deploy one of various types of Ty
 Each CloudFormation (.yaml) file deploys a type of architecture.
 Under the `/deployments` directory, select the architecture relevant to your use-case. 
 
-NOTE: FOR AMAZONLINUX2 ONLY
+NOTE:FOR AMAZONLINUX2 ONLY
 
 # Architectures
 
